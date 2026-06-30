@@ -194,12 +194,15 @@ with col_right:
     min_date = results_df["date"].min()
     max_date = results_df["date"].max()
 
-    date_range = st.date_input(
-        "Choose a date range",
-        value=(min_date, max_date),
-        min_value=min_date,
-        max_value=max_date,
-    )
+    date_col, days_col = st.columns(2)
+
+    with date_col:
+        date_range = st.date_input(
+            "Date range",
+            value=(min_date, max_date),
+            min_value=min_date,
+            max_value=max_date,
+        )
 
     # Handle both single-date and tuple returns from date_input
     if isinstance(date_range, tuple) and len(date_range) == 2:
@@ -207,12 +210,23 @@ with col_right:
     else:
         start_date, end_date = min_date, max_date
 
+    with days_col:
+        available_days = (max_date - pd.Timestamp(start_date)).days
+        current_days = (pd.Timestamp(end_date) - pd.Timestamp(start_date)).days
+        num_days = st.slider(
+            "Days from start",
+            min_value=1,
+            max_value=max(available_days, 1),
+            value=min(max(current_days, 1), max(available_days, 1)),
+        )
+        end_date = pd.Timestamp(start_date) + pd.Timedelta(days=int(num_days))
+
     mask = (results_df["date"] >= pd.Timestamp(start_date)) & (
         results_df["date"] <= pd.Timestamp(end_date)
     )
     filtered = results_df[mask]
 
-    st.write(f"Showing **{len(filtered)}** days from **{start_date}** to **{end_date}**")
+    st.write(f"Showing **{len(filtered)}** days from **{start_date}** to **{end_date.date()}**")
 
     # Plot
     fig, ax = plt.subplots(figsize=(10, 4.5))
