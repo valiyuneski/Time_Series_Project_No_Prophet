@@ -238,7 +238,7 @@ with col_right:
     )
     filtered = results_df[mask]
 
-    st.write(f"Showing **{len(filtered)}** days from **{start_date}** to **{end_date.date()}**")
+    st.write(f"Showing **{num_days}** days ({len(filtered)} with data) from **{start_date}** to **{end_date.date()}**")
 
     # Plot
     fig, ax = plt.subplots(figsize=(10, 4.5))
