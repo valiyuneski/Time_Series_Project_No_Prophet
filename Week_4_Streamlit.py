@@ -22,6 +22,13 @@ def _on_slider_change():
     if end != st.session_state.date_range_widget[1]:
         st.session_state.date_range_widget = (start, end)
 
+
+def _on_date_range_change():
+    val = st.session_state.date_range_widget
+    if isinstance(val, tuple) and len(val) == 2:
+        start, end = val
+        st.session_state.num_days_slider = (end - start).days + 1
+
 # ---------------------------------------------------------------------------
 # Page config
 # ---------------------------------------------------------------------------
@@ -212,6 +219,7 @@ with col_right:
             min_value=min_date,
             max_value=max_date,
             key="date_range_widget",
+            on_change=_on_date_range_change,
         )
 
     # Handle both single-date and tuple returns from date_input
