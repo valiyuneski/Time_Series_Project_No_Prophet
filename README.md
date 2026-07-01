@@ -28,3 +28,23 @@ Week_3_Hyperopt.ipynb — Bayesian hyperparameter tuning for XGBoost. We used TP
 Week_3_MLFlow.ipynb — Experiment tracking with MLflow. We logged parameters, metrics, and models for Linear Regression and Ridge, then showed how to load models back and launch the MLflow UI.
 
 Week_4_Streamlit.py — Interactive dashboard that loads the feature-engineered data, retrains XGBoost (our best Week 2 model), and displays test-set metrics (MSE, RMSE, MAE, R²), model hyperparameters, and an interactive actual-vs-forecast plot with a date range selector.
+
+Woche 1 – Explorative Datenanalyse
+
+Week_1_eda.ipynb: Grundlegende Datenbereinigung. Ausreißer entfernt, fehlende Werte aufgefüllt, Stationarität geprüft (Ergebnis: nicht-stationär) und der bereinigte Datensatz für die Modellierung gespeichert.
+
+Week_1_advanced_eda.ipynb: Vertiefte Analyse externer Einflussfaktoren. Wochenenden steigern den Umsatz um 15–25 %, Feiertage wie Weihnachten und Black Friday sorgen für Nachfragespitzen, und der Ölpreis zeigt eine schwache negative Korrelation.
+
+Woche 2 – Modellierung
+
+Week_2_statistical_models.ipynb: Klassische Zeitreihenmodelle (ARIMA, SARIMA, Holt-Winters). Holt-Winters war am besten mit RMSE ≈ 118 und R² = 0,48, und hat die wöchentlichen Muster gut erfasst.
+Week_2_feature_engineering_models.ipynb: Machine Learning mit konstruierten Features (Kalenderfeatures, Öl­preis-Lags, Sales-Lags, rollierende Durchschnitte, Feiertagsflags). Trainiert wurden Linear Regression, Random Forest und XGBoost – XGBoost war der erwartete Favorit.
+
+Woche 3 – Tuning & Tracking
+Week_3_Hyperopt.ipynb: Bayessche Hyperparameter-Optimierung für XGBoost mittels TPE, 7 Parameter über 50 Iterationen, Ziel: RMSE minimieren. Anschließend finales optimiertes Modell trainiert.
+
+Week_3_MLFlow.ipynb: Experiment-Tracking mit MLflow. Parameter, Metriken und Modelle für Linear Regression und Ridge geloggt, inklusive Laden gespeicherter Modelle und Start der MLflow-UI.
+Woche 4 – Deployment
+
+Week_4_Streamlit.py: Interaktives Dashboard, das die feature-engineerten Daten lädt, das beste Modell aus Woche 2 (XGBoost) neu trainiert und Test-Metriken (MSE, RMSE, MAE, R²), Modell-Hyperparameter sowie einen interaktiven Actual-vs-Forecast-Plot mit Datumsauswahl anzeigt.
+
