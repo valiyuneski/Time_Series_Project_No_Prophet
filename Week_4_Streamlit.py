@@ -12,6 +12,15 @@ import streamlit as st
 
 from xgboost import XGBRegressor
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from datetime import timedelta
+
+
+def _on_slider_change():
+    start, _ = st.session_state.date_range_widget
+    num_days = st.session_state.num_days_slider
+    end = start + timedelta(days=num_days - 1)
+    if end != st.session_state.date_range_widget[1]:
+        st.session_state.date_range_widget = (start, end)
 
 # ---------------------------------------------------------------------------
 # Page config
@@ -202,6 +211,7 @@ with col_right:
             value=(min_date, max_date),
             min_value=min_date,
             max_value=max_date,
+            key="date_range_widget",
         )
 
     # Handle both single-date and tuple returns from date_input
@@ -211,15 +221,17 @@ with col_right:
         start_date, end_date = min_date, max_date
 
     with days_col:
-        available_days = (max_date - pd.Timestamp(start_date)).days
-        current_days = (pd.Timestamp(end_date) - pd.Timestamp(start_date)).days
+        available_days = (max_date - pd.Timestamp(start_date)).days + 1
+        current_days = (pd.Timestamp(end_date) - pd.Timestamp(start_date)).days + 1
         num_days = st.slider(
-            "Days from start",
+            "Number of days",
             min_value=1,
             max_value=max(available_days, 1),
             value=min(max(current_days, 1), max(available_days, 1)),
+            key="num_days_slider",
+            on_change=_on_slider_change,
         )
-        end_date = pd.Timestamp(start_date) + pd.Timedelta(days=int(num_days))
+        end_date = pd.Timestamp(start_date) + pd.Timedelta(days=int(num_days) - 1)
 
     mask = (results_df["date"] >= pd.Timestamp(start_date)) & (
         results_df["date"] <= pd.Timestamp(end_date)
